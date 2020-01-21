@@ -49,10 +49,10 @@ public class PromocaoService {
             e.printStackTrace();
         }
 
-        List<SorteioDTO> sorteios = Arrays.asList(SorteioDTO.builder().mes("Dezembro")
-                                                                        .validadeInicio("2019-11-01")
-                                                                        .validadeFim("2019-11-30")
-                                                                        .dataSorteio("2019-12-15")
+        List<SorteioDTO> sorteios = Arrays.asList(SorteioDTO.builder().mes("Janeiro")
+                                                                        .validadeInicio("2019-12-01")
+                                                                        .validadeFim("2019-12-31")
+                                                                        .dataSorteio("2019-01-15")
                                                                         .numeros(numeros).build());
         return VencedoresResponse.builder().response(sorteios).build();
     }
@@ -101,12 +101,12 @@ public class PromocaoService {
     private List<NumeroDTO> tratarDadosPessoais(List<NumeroDTO> numeros, File arquivo) throws IOException {
         Files.lines(Paths.get(arquivo.toString())).forEach(linha -> {
             String[] dados = linha.split(",");
-            Long cpf = Long.parseLong(dados[3].toString());
+            Long cpf = Long.parseLong(dados[0]);
             numeros.forEach(numero -> {
                 if(numero.getCpf() != null && numero.getCpf().equals(cpf)) {
-                    numero.setCidade(dados[0].toString());
-                    numero.setNome(dados[1].toString());
-                    numero.setUf(dados[2].toString());
+                    numero.setCidade(dados[2]);
+                    numero.setNome(dados[1]);
+                    numero.setUf(dados[3]);
                 }
             });
         });
